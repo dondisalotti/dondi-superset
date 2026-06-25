@@ -99,7 +99,13 @@ class CeleryConfig:
 
 CELERY_CONFIG = CeleryConfig
 
-FEATURE_FLAGS = {"ALERT_REPORTS": True}
+FEATURE_FLAGS = {
+    "ALERT_REPORTS": True,
+    "EMBEDDED_SUPERSET": True,
+    "PIVOT_TABLE_V2": True,
+}
+X_FRAME_OPTIONS = "ALLOWALL"
+ENABLE_JAVASCRIPT_CONTROLS = True
 ALERT_REPORTS_NOTIFICATION_DRY_RUN = True
 WEBDRIVER_BASEURL = f"http://superset_app{os.environ.get('SUPERSET_APP_ROOT', '/')}/"  # When using docker compose baseurl should be http://superset_nginx{ENV{BASEPATH}}/  # noqa: E501
 # The base URL for the email report hyperlinks.
@@ -136,3 +142,58 @@ try:
     )
 except ImportError:
     logger.info("Using default Docker config...")
+# Permetti a siti esterni di incorporare Superset
+HTTP_HEADERS = {"X-Frame-Options": "ALLOWALL"}
+# Abilita il CORS (fondamentale per le chiamate API da altri server)
+ENABLE_CORS = True
+CORS_OPTIONS = {
+    "supports_credentials": True,
+    "allow_headers": ["*"],
+    "resources": ["*"],
+    "origins": ["*"],
+        #"statistiche.dondisalotti.it",""],  # In produzione metti l'URL specifico del portale
+}
+# ESENZIONE CSRF
+# Permette alle API di sicurezza di ricevere chiamate POST senza il token CSRF del browser
+WTF_CSRF_ENABLED = False
+WTF_CSRF_EXEMPT_LIST = [
+    "api.v1.security.login",
+    "api.v1.security.csrf_token",
+    "api.v1.security.guest_token",
+]
+# Configura la Content Security Policy (CSP)
+# Devi autorizzare esplicitamente i domini che possono ospitare l'iframe
+TALISMAN_CONFIG = {
+    "content_security_policy": {
+        "frame-ancestors": [
+            "*"
+            # "http://localhost:3000", # Test locale standard
+            # "http://127.0.0.1:3000", # Test locale IP
+            # "http://[::1]:3000", # Test locale IPv6
+            # "http://192.168.22.123:3000", # Il tuo IP specifico
+            # "https://testportale.dondisalotti.it" # Il dominio stesso
+        ],
+        "frame-src": [
+            "*"
+            # "https://testportale.dondisalotti.it"
+        ],
+        "default-src": ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+    },
+    "force_https": False,
+    "session_cookie_secure": False,
+    "session_cookie_samesite": "None",
+}
+
+SESSION_COOKIE_SAMESITE = "None"
+SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_HTTPONLY = True
+# Assicurati che queste siano attive per l'embedding
+GUEST_TOKEN_JWT_SECRET = "SERVEUNABICHEFUNZIONITIPREGO"  # Inventane una se non c'è
+GUEST_ROLE_NAME = "Public"  # O il ruolo che hai creato
+AUTH_ROLE_PUBLIC = "Public"
+PUBLIC_ROLE_LIKE = "Public"
+LANGUAGES = {
+    "it": {"flag": "it", "name": "Italian"},
+    "en": {"flag": "us", "name": "English"},
+}
+BABEL_DEFAULT_LOCALE = "it"
