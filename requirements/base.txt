@@ -454,3 +454,8 @@ xlsxwriter==3.0.9
     #   pandas
 zstandard==0.23.0
     # via flask-compress
+
+# BigQuery support
+sqlalchemy-bigquery>=1.15.0
+google-cloud-bigquery>=3.10.0
+pandas-gbq>=0.19.1
