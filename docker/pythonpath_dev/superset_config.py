@@ -179,6 +179,23 @@ TALISMAN_CONFIG = {
             # "https://testportale.dondisalotti.it"
         ],
         "default-src": ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+        "connect-src": [
+            "'self'",
+            "https://*.mapbox.com",
+            "https://events.mapbox.com",
+            "https://*.basemaps.cartocdn.com",
+            "https://*.tile.openstreetmap.org",
+        ],
+        "img-src": [
+            "'self'",
+            "data:",
+            "blob:",
+            "https://*.mapbox.com",
+            "https://*.basemaps.cartocdn.com",
+            "https://*.tile.openstreetmap.org",
+        ],
+        "font-src": ["'self'", "data:", "https://fonts.gstatic.com"],
+        "worker-src": ["'self'", "blob:"],
     },
     "force_https": False,
     "session_cookie_secure": False,
