@@ -202,6 +202,34 @@ TALISMAN_CONFIG = {
     "session_cookie_samesite": "None",
 }
 
+TALISMAN_DEV_CONFIG = {
+    "content_security_policy": {
+        "frame-ancestors": ["*"],
+        "frame-src": ["*"],
+        "default-src": ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+        "connect-src": [
+            "'self'",
+            "https://*.mapbox.com",
+            "https://events.mapbox.com",
+            "https://*.basemaps.cartocdn.com",
+            "https://*.tile.openstreetmap.org",
+        ],
+        "img-src": [
+            "'self'",
+            "data:",
+            "blob:",
+            "https://*.mapbox.com",
+            "https://*.basemaps.cartocdn.com",
+            "https://*.tile.openstreetmap.org",
+        ],
+        "font-src": ["'self'", "data:", "https://fonts.gstatic.com"],
+        "worker-src": ["'self'", "blob:"],
+    },
+    "force_https": False,
+    "session_cookie_secure": False,
+    "session_cookie_samesite": "None",
+}
+
 SESSION_COOKIE_SAMESITE = "None"
 SESSION_COOKIE_SECURE = True
 SESSION_COOKIE_HTTPONLY = True
