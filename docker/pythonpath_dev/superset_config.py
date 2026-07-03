@@ -234,7 +234,7 @@ SESSION_COOKIE_SAMESITE = "None"
 SESSION_COOKIE_SECURE = True
 SESSION_COOKIE_HTTPONLY = True
 # Assicurati che queste siano attive per l'embedding
-GUEST_TOKEN_JWT_SECRET = "SERVEUNABICHEFUNZIONITIPREGO"  # Inventane una se non c'è
+GUEST_TOKEN_JWT_SECRET = os.environ.get("GUEST_TOKEN_JWT_SECRET", "")
 GUEST_ROLE_NAME = "Public"  # O il ruolo che hai creato
 AUTH_ROLE_PUBLIC = "Public"
 PUBLIC_ROLE_LIKE = "Public"
